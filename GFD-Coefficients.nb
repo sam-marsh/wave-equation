@@ -1,0 +1,254 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      7574,        246]
+NotebookOptionsPosition[      6843,        216]
+NotebookOutlinePosition[      7201,        232]
+CellTagsIndexPosition[      7158,        229]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["GFD Coefficients Calculator", "Title",
+ CellChangeTimes->{{3.7003683586461067`*^9, 3.700368362341422*^9}}],
+
+Cell[TextData[{
+ "The following function calculates the coefficients ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["D", "m"], " "}], TraditionalForm]]],
+ "of the generalised finite difference formula. ",
+ Cell[BoxData[
+  FormBox["d", TraditionalForm]]],
+ " is the order of the derivative, ",
+ Cell[BoxData[
+  FormBox["p", TraditionalForm]]],
+ " is the order of the approximation, and ",
+ Cell[BoxData[
+  FormBox["l", TraditionalForm]]],
+ " is the left (starting) offset/index. The values ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["C", "l"], ",", "...", ",", 
+    SubscriptBox["C", 
+     RowBox[{"l", "+", "d", "+", "p", "-", "1"}]]}], TraditionalForm]]],
+ " are returned as the elements of a list."
+}], "Text",
+ CellChangeTimes->{{3.700367778646295*^9, 3.700367779765188*^9}, {
+  3.700367827143188*^9, 3.700367828422635*^9}, {3.700367884291017*^9, 
+  3.700368057033168*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Dm", "[", 
+   RowBox[{"d_", ",", "p_", ",", "l_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"Factorial", "[", "d", "]"}], "*", 
+   RowBox[{"Cm", "[", 
+    RowBox[{"d", ",", "p", ",", "l"}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.7003677870787992`*^9, 3.7003678038139753`*^9}}],
+
+Cell[TextData[{
+ "The following function calculates the coefficients ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["C", "m"], " "}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "of the generalised finite difference formula. Input arguments are as above. \
+Note that ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["D", "m"], "=", 
+    RowBox[{
+     RowBox[{"d", "!"}], " ", 
+     SubscriptBox["C", "m"]}]}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.700368068866089*^9, 3.70036811907443*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Cm", "[", 
+   RowBox[{"d_", ",", "p_", ",", "l_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"r", ",", "matrix", ",", "y"}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"r", "=", 
+      RowBox[{"l", "+", "d", "+", "p", "-", "1"}]}], ";", 
+     RowBox[{"(*", " ", 
+      RowBox[{"calculate", " ", "right", " ", "offset"}], " ", "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"matrix", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"m", "\[Equal]", "0"}], "&&", 
+           RowBox[{"n", "\[Equal]", "0"}]}], ",", "1", ",", 
+          RowBox[{"m", "^", "n"}]}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"n", ",", "0", ",", 
+          RowBox[{"d", "+", "p", "-", "1"}]}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"m", ",", "l", ",", "r"}], "}"}]}], "]"}]}], ";", " ", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+       RowBox[{"create", " ", "table", " ", 
+        RowBox[{"(", "matrix", ")"}], " ", "of", " ", "powers", " ", "as", 
+        " ", "per", " ", "slides"}], ",", " ", 
+       RowBox[{
+        RowBox[{"define", " ", 
+         RowBox[{"0", "^", "0"}]}], " ", "=", " ", 
+        RowBox[{"1", " ", "here"}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"y", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"KroneckerDelta", "[", 
+          RowBox[{"n", ",", "d"}], "]"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"n", ",", "0", ",", 
+          RowBox[{"d", "+", "p", "-", "1"}]}], "}"}]}], "]"}]}], ";", " ", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+      "construct", " ", "rhs", " ", "of", " ", "equation", " ", "as", " ", 
+       "vector"}], " ", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"Flatten", "[", 
+      RowBox[{
+       RowBox[{"Inverse", "[", "matrix", "]"}], ".", "y"}], "]"}]}]}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "solve", " ", "matrix", " ", "equation", " ", "and", " ", "convert", " ", 
+     "to", " ", "list"}], " ", "*)"}], "\[IndentingNewLine]", 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.700367689084319*^9, 3.7003677740375853`*^9}, {
+  3.70036783891918*^9, 3.700367854614689*^9}, {3.70036812379529*^9, 
+  3.700368193238428*^9}}],
+
+Cell[TextData[{
+ "Time: second-order derivative, second-order approximation, starting at ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"-", "1"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.7003682478511*^9, 3.7003682722828217`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Dm", "[", 
+  RowBox[{"2", ",", "2", ",", 
+   RowBox[{"-", "1"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.700367752980254*^9, 3.7003677562610817`*^9}, {
+  3.70036823979677*^9, 3.700368239898033*^9}}],
+
+Cell[BoxData[
+ FormBox[
+  RowBox[{"{", 
+   RowBox[{"1", ",", 
+    RowBox[{"-", "2"}], ",", "1", ",", "0"}], "}"}], 
+  TraditionalForm]], "Output",
+ CellChangeTimes->{
+  3.700367756474997*^9, {3.700367844452544*^9, 3.700367855887248*^9}, 
+   3.7003682401768827`*^9, 3.700791607003315*^9, 3.700899444128952*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Space: second-order derivative, fourth-order approximation, starting at ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"-", "2"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.700368277651669*^9, 3.70036829425133*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Dm", "[", 
+  RowBox[{"2", ",", "4", ",", 
+   RowBox[{"-", "2"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.7003682956325483`*^9, 3.700368333057288*^9}, {
+  3.7003723916306057`*^9, 3.700372396482774*^9}, {3.700372493502591*^9, 
+  3.7003724973647823`*^9}}],
+
+Cell[BoxData[
+ FormBox[
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"-", 
+     FractionBox["1", "12"]}], ",", 
+    FractionBox["4", "3"], ",", 
+    RowBox[{"-", 
+     FractionBox["5", "2"]}], ",", 
+    FractionBox["4", "3"], ",", 
+    RowBox[{"-", 
+     FractionBox["1", "12"]}], ",", "0"}], "}"}], TraditionalForm]], "Output",\
+
+ CellChangeTimes->{{3.7003682995740547`*^9, 3.700368333478313*^9}, {
+   3.7003723920878067`*^9, 3.7003723968655663`*^9}, {3.700372492355299*^9, 
+   3.700372497711605*^9}, 3.700791607057332*^9, 3.7008994441840763`*^9}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{640, 751},
+WindowMargins->{{0, Automatic}, {Automatic, -1}},
+FrontEndVersion->"11.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (September \
+21, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 112, 1, 92, "Title"],
+Cell[695, 25, 902, 26, 95, "Text"],
+Cell[1600, 53, 311, 8, 32, "Input"],
+Cell[1914, 63, 574, 19, 53, "Text"],
+Cell[2491, 84, 2346, 61, 222, "Input"],
+Cell[4840, 147, 276, 8, 31, "Text"],
+Cell[CellGroupData[{
+Cell[5141, 159, 223, 5, 32, "Input"],
+Cell[5367, 166, 309, 8, 28, "Output"]
+}, Open  ]],
+Cell[5691, 177, 276, 8, 31, "Text"],
+Cell[CellGroupData[{
+Cell[5992, 189, 277, 6, 32, "Input"],
+Cell[6272, 197, 543, 15, 80, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
